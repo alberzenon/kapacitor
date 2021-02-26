@@ -144,7 +144,7 @@ func (n *UnionNode) emitReady(drain bool) error {
 				}
 			}
 			// Drop values that were emitted
-			n.sources[i] = values[j:]
+			n.sources[i] = append(values[:0], values[j:]...)
 		}
 	}
 	return nil

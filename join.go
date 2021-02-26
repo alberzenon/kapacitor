@@ -180,7 +180,7 @@ func (n *JoinNode) matchPoints(p srcPoint) {
 			}
 		}
 		// Remove all sent points.
-		n.specificGroupsBuffer[groupId] = buf[i:]
+		n.specificGroupsBuffer[groupId] = append(buf[:0], buf[i:]...)
 	}
 
 	if len(p.Msg.Dimensions().TagNames) > len(n.j.Dimensions) {
@@ -210,7 +210,7 @@ func (n *JoinNode) matchPoints(p srcPoint) {
 		if n.allReported {
 			// Can't trust lowMark until all parents have reported.
 			// Remove any unneeded match points.
-			n.matchGroupsBuffer[groupId] = matches[i:]
+			n.matchGroupsBuffer[groupId] = append(matches[:0], matches[i:]...)
 		}
 
 		// If the point didn't match that leaves us with options 2 and 3.
@@ -242,7 +242,7 @@ func (n *JoinNode) matchPoints(p srcPoint) {
 			}
 		}
 		// Remove all sent points
-		n.specificGroupsBuffer[groupId] = buf[i:]
+		n.specificGroupsBuffer[groupId] = append(buf[:0], buf[i:]...)
 	}
 }
 
@@ -400,7 +400,7 @@ func (g *joinGroup) emit(onlyReadySets bool) error {
 	if i == len(sets) {
 		delete(g.sets, g.oldestTime)
 	} else {
-		g.sets[g.oldestTime] = sets[i:]
+		g.sets[g.oldestTime] = append(sets[:0], sets[i:]...)
 	}
 
 	g.oldestTime = time.Time{}
